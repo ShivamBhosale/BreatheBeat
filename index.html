@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreatheBeat - Take a break</title>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png"/>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="heading">BreatheBeat</h1>
+    <div class="stopwatch-container">
+        <div class="stopwatch" id="stopwatch">00:00:00</div>
+        <div class="controls">
+            <button onclick="startStopwatch()">Start</button>
+            <button onclick="stopStopwatch()">Stop</button>
+            <button onclick="resetStopwatch()">Reset</button>
+        </div>
+    </div>
+
+    <audio id="timerAudio" src="sounds/my-dreams.mp3" preload="auto" loop></audio>
+    <script src="script.js"></script>
+</body>
+</html>
