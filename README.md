@@ -1,1 +1,1 @@
-# BreatheBeat: Take a divine break
+# BreatheBeat: Take a break
