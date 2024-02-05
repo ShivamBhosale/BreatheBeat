@@ -48,7 +48,9 @@ body {
 .navbar a:hover {
     color: #FF7C00;
 }
-
+.navbar a.active {
+    color: #FF7C00;
+}
 .stopwatch {
     font-size: 5em;
     margin-bottom: 20px;
@@ -77,10 +79,6 @@ body {
     background-color: #FF953D;
 }
 
-.navbar a.active {
-    color: #FF7C00;
-}
-
 .heading {
     font-size: 2.5em;
     color: white;
@@ -88,8 +86,7 @@ body {
     margin-bottom: 20px;
 }
 
-p{
+p {
     color: #fff;
     margin: 0;
-    
 }

@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BreatheBeat: Take a divine break</title>
     <link rel="shortcut icon" type="image/png" href="images/icon.png"/>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timer.css">
 </head>
 <body>
-    
+    <nav class="navbar">
+        <a href="index.html">Stopwatch</a>
+        <a href="timer.html" class="active">Timer</a>
+    </nav>
+    <h1 class="heading">BreatheBeat : Your Meditation Companion</h1>
+   
+    <div class="stopwatch" id="stopwatch">00:00:00</div>
+
+    <div class="controls">
+    <button class="controls-button" onclick="promptSetTimer()">Set Timer</button>
+    <button class="controls-button" onclick="startStopwatch()">Start Timer</button>
+    <button class="controls-button" onclick="stopStopwatch()">Stop Timer</button>
+</div>
+    <audio id="timerAudio" src="sounds/alarm.mp3" preload="auto" loop></audio>
+    <script src="timer.js"></script>
 </body>
 </html>
