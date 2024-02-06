@@ -2,6 +2,7 @@ let timer;
 let timerValue = 0;
 let audio;
 
+
 function promptSetTimer() {
     const userInput = prompt("Enter timer duration in minutes:");
     const parsedInput = parseFloat(userInput);
@@ -18,6 +19,8 @@ function setTimer(minutes) {
     updateTimerDisplay();
 }
 
+const audio2 = document.getElementById('timerAudio');
+
 function startStopwatch() {
     if (timerValue > 0 && !timer) {
         timer = setInterval(() => {
@@ -27,7 +30,9 @@ function startStopwatch() {
             }
             updateTimerDisplay();
         }, 1000);
+        audio2.play();
     }
+
 }
 
 function stopStopwatch() {
@@ -35,10 +40,11 @@ function stopStopwatch() {
     timer = null;
     updateTimerDisplay();
     playAudio(); // Call the function to play audio
+    audio2.pause();
 }
 
 function playAudio() {
-    audio = document.getElementById('timerAudio');
+    audio = document.getElementById('timerAudio2');
     audio.play();
 
     // Add click event listener to stop audio on click anywhere on the screen
