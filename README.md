@@ -1,4 +1,4 @@
-# BreatheBeat - Take a break
+# BreatheBeat: Your Meditation Companion
 
 ## Overview
 
