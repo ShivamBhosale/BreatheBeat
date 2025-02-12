@@ -108,3 +108,33 @@ p {
     text-align: center;
     opacity: 0.9;
 }
+
+/* Custom cursor styles */
+* {
+    cursor: none;
+}
+
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    backdrop-filter: blur(2px);
+}
+
+.custom-cursor.clicking {
+    transform: scale(0.8);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Hover effect for interactive elements */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor {
+    transform: scale(1.5);
+    background: rgba(255, 255, 255, 0.4);
+}
