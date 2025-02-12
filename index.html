@@ -13,17 +13,29 @@
         <a href="timer.html">Timer</a>
     </nav>
     <h1 class="heading">BreatheBeat : Your Meditation Companion</h1>
-    <p>*Headphones Recommended</p>
+    <div class="instructions">
+        <p><i class="fa fa-headphones"></i> Headphones recommended for the best experience</p>
+        <p>Take deep breaths and focus on the present moment</p>
+    </div>
     <div class="stopwatch-container">
         <div class="stopwatch" id="stopwatch">00:00:00</div>
         <div class="controls">
-            <button onclick="startStopwatch()">Start</button>
-            <button onclick="stopStopwatch()">Stop</button>
-            <button onclick="resetStopwatch()">Reset</button>
+            <button onclick="startStopwatch()" class="control-btn start-btn">
+                <i class="fa fa-play"></i> Start Session
+            </button>
+            <button onclick="stopStopwatch()" class="control-btn pause-btn">
+                <i class="fa fa-pause"></i> Pause
+            </button>
+            <button onclick="resetStopwatch()" class="control-btn reset-btn">
+                <i class="fa fa-refresh"></i> Reset
+            </button>
         </div>
+        
     </div>
 
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
+  
 </body>
 </html>
