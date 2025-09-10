@@ -56,20 +56,126 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.stopwatch {
-    font-size: 6em;
+.timer-container {
+    position: relative;
     margin-bottom: 30px;
+}
+
+.progress-ring {
+    position: relative;
+    display: inline-block;
+}
+
+.progress-ring-svg {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 879.646; /* 2 * PI * 140 */
+    stroke-dashoffset: 879.646;
+    transition: stroke-dashoffset 1s ease;
+}
+
+.stopwatch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
     color: white;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     font-weight: 200;
     text-align: center;
+    white-space: nowrap;
+}
+
+.preset-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.preset-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.preset-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
 }
 
 .controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: white;
+}
+
+.volume-control input[type="range"] {
+    width: 150px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    border-radius: 5px;
+    -webkit-appearance: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.completion-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    z-index: 10000;
+    backdrop-filter: blur(10px);
+    animation: fadeInOut 3s ease;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 .controls button {
@@ -137,4 +243,219 @@ a:hover ~ .custom-cursor,
 button:hover ~ .custom-cursor {
     transform: scale(1.5);
     background: rgba(255, 255, 255, 0.4);
+}
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .progress-ring-svg {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .progress-ring-circle,
+    .progress-ring-circle-bg {
+        r: 115;
+    }
+    
+    .stopwatch {
+        font-size: 2.5em;
+    }
+    
+    .heading {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    
+    .controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .controls button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+    
+    .preset-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .volume-control input[type="range"] {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-ring-svg {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .progress-ring-circle,
+    .progress-ring-circle-bg {
+        r: 90;
+    }
+    
+    .stopwatch {
+        font-size: 2em;
+    }
+    
+    .heading {
+        font-size: 1.8em;
+    }
+    
+    .navbar a {
+        font-size: 1em;
+        padding: 6px 15px;
+    }
+}/* 
+Timer Breathing Animation */
+.breathing-ring {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0;
+    transition: all 0.5s ease;
+    animation: breathingRingPulse 10s ease-in-out infinite;
+}
+
+.timer-active .breathing-ring {
+    opacity: 1;
+}
+
+.breathing-particles-timer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.timer-active .breathing-particles-timer {
+    opacity: 1;
+}
+
+.breathing-instruction {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    font-weight: 300;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.timer-active .breathing-instruction {
+    opacity: 1;
+}
+
+.progress-ring.inhale .breathing-ring {
+    stroke: rgba(100, 255, 100, 0.6);
+    animation: breathingRingInhale 4s ease-in-out;
+}
+
+.progress-ring.exhale .breathing-ring {
+    stroke: rgba(100, 150, 255, 0.6);
+    animation: breathingRingExhale 4s ease-in-out;
+}
+
+.progress-ring.hold .breathing-ring {
+    stroke: rgba(255, 255, 100, 0.6);
+}
+
+@keyframes breathingRingPulse {
+    0%, 100% {
+        stroke-dasharray: 0, 754;
+        transform: rotate(0deg);
+    }
+    25% {
+        stroke-dasharray: 188, 566;
+        transform: rotate(90deg);
+    }
+    50% {
+        stroke-dasharray: 377, 377;
+        transform: rotate(180deg);
+    }
+    75% {
+        stroke-dasharray: 188, 566;
+        transform: rotate(270deg);
+    }
+}
+
+@keyframes breathingRingInhale {
+    0% {
+        stroke-dasharray: 0, 754;
+        stroke-width: 2;
+    }
+    100% {
+        stroke-dasharray: 754, 0;
+        stroke-width: 4;
+    }
+}
+
+@keyframes breathingRingExhale {
+    0% {
+        stroke-dasharray: 754, 0;
+        stroke-width: 4;
+    }
+    100% {
+        stroke-dasharray: 0, 754;
+        stroke-width: 2;
+    }
+}
+
+/* Timer particle effects */
+.timer-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+@keyframes timerParticleFloat {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(0);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1) translateY(-5px);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1) translateY(-15px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translateY(-25px);
+    }
+}
+
+/* Global breathing effect for timer */
+body.timer-active {
+    animation: gradientFlow 15s ease infinite, timerBreathingGlow 10s ease-in-out infinite;
+}
+
+@keyframes timerBreathingGlow {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+    }
+    25% {
+        filter: brightness(1.03) saturate(1.05);
+    }
+    50% {
+        filter: brightness(1.06) saturate(1.1);
+    }
+    75% {
+        filter: brightness(1.03) saturate(1.05);
+    }
 }

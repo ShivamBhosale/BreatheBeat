@@ -2,6 +2,7 @@ let timer;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
+let breathingTimer;
 
 // Get the audio element
 const audio = document.getElementById("timerAudio");
@@ -32,6 +33,70 @@ function startStopwatch() {
     // Play the audio only when the timer is ON
     audio.play();
   }, 1000);
+
+  startBreathingGuide();
+}
+
+function startBreathingGuide() {
+  const breathingGuide = document.getElementById("breathingGuide");
+  const breathingText = document.getElementById("breathingText");
+  const breathingParticles = document.getElementById("breathingParticles");
+
+  breathingGuide.classList.add("active");
+
+  let phase = 0; // 0: inhale, 1: hold, 2: exhale, 3: hold
+  const phases = ["Breathe In", "Hold", "Breathe Out", "Hold"];
+  const durations = [4000, 1000, 4000, 1000]; // in milliseconds
+
+  // Create breathing particles
+  function createParticles() {
+    breathingParticles.innerHTML = "";
+    for (let i = 0; i < 12; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+
+      // Random position around the circle
+      const angle = (i / 12) * 2 * Math.PI;
+      const radius = 50;
+      const x = Math.cos(angle) * radius + 50;
+      const y = Math.sin(angle) * radius + 50;
+
+      particle.style.left = x + "%";
+      particle.style.top = y + "%";
+      particle.style.animationDelay = i * 0.1 + "s";
+
+      breathingParticles.appendChild(particle);
+    }
+  }
+
+  createParticles();
+
+  function cycleBreathing() {
+    breathingText.textContent = phases[phase];
+    breathingGuide.className = `breathing-guide active phase-${phase}`;
+
+    // Add subtle text animation based on phase
+    if (phase === 0) {
+      // Inhale
+      breathingText.style.transform = "scale(1.1)";
+      breathingText.style.color = "rgba(100, 255, 100, 0.9)";
+    } else if (phase === 2) {
+      // Exhale
+      breathingText.style.transform = "scale(0.9)";
+      breathingText.style.color = "rgba(100, 150, 255, 0.9)";
+    } else {
+      // Hold
+      breathingText.style.transform = "scale(1)";
+      breathingText.style.color = "rgba(255, 255, 255, 0.9)";
+    }
+
+    setTimeout(() => {
+      phase = (phase + 1) % 4;
+      cycleBreathing();
+    }, durations[phase]);
+  }
+
+  cycleBreathing();
 }
 
 function stopStopwatch() {
@@ -42,6 +107,10 @@ function stopStopwatch() {
 
   // Pause the audio when the timer is OFF
   audio.pause();
+
+  // Stop breathing guide
+  const breathingGuide = document.getElementById("breathingGuide");
+  breathingGuide.classList.remove("active");
 }
 
 function resetStopwatch() {
@@ -57,6 +126,15 @@ function resetStopwatch() {
   // Pause and reset the audio when the timer is OFF
   audio.pause();
   audio.currentTime = 0;
+
+  // Stop breathing guide
+  const breathingGuide = document.getElementById("breathingGuide");
+  breathingGuide.classList.remove("active");
+}
+
+function adjustVolume(value) {
+  const volume = value / 100;
+  audio.volume = volume;
 }
 
 const cursor = document.createElement("div");

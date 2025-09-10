@@ -16,13 +16,38 @@
     <p><i class="fa fa-headphones"></i> Headphones recommended for the best experience</p>
         <p>Take deep breaths and focus on the present moment</p>
     </div>
-    <div class="stopwatch" id="stopwatch">00:00:00</div>
+    <div class="timer-container">
+        <div class="progress-ring" id="progressRing">
+            <svg class="progress-ring-svg" width="300" height="300">
+                <circle class="progress-ring-circle-bg" cx="150" cy="150" r="140" />
+                <circle class="progress-ring-circle" cx="150" cy="150" r="140" id="progress-circle" />
+                <circle class="breathing-ring" cx="150" cy="150" r="120" id="breathing-ring" />
+            </svg>
+            <div class="breathing-particles-timer" id="breathingParticlesTimer"></div>
+            <div class="stopwatch" id="stopwatch">00:00:00</div>
+            <div class="breathing-instruction" id="breathingInstruction">Ready</div>
+        </div>
+    </div>
+
+    <div class="preset-buttons">
+        <button class="preset-btn" onclick="setTimer(300)">5min</button>
+        <button class="preset-btn" onclick="setTimer(600)">10min</button>
+        <button class="preset-btn" onclick="setTimer(900)">15min</button>
+        <button class="preset-btn" onclick="setTimer(1800)">30min</button>
+    </div>
 
     <div class="controls">
-    <button class="controls-button" onclick="promptSetTimer()" ><i class="fa fa-clock-o"></i> Set Timer</button>
-    <button class="controls-button" onclick="startStopwatch()"><i class="fa fa-play"></i> Start Timer</button>
-    <button class="controls-button" onclick="stopStopwatch()"><i class="fa fa-stop"></i> Stop Timer</button>
-</div>
+        <button class="controls-button" onclick="promptSetTimer()"><i class="fa fa-clock-o"></i> Custom</button>
+        <button class="controls-button" onclick="startStopwatch()"><i class="fa fa-play"></i> Start</button>
+        <button class="controls-button" onclick="pauseTimer()"><i class="fa fa-pause"></i> Pause</button>
+        <button class="controls-button" onclick="stopStopwatch()"><i class="fa fa-stop"></i> Reset</button>
+    </div>
+
+    <div class="volume-control">
+        <i class="fa fa-volume-down"></i>
+        <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="adjustVolume(this.value)">
+        <i class="fa fa-volume-up"></i>
+    </div>
 <footer style="text-align: center; padding: 20px; color: #f6eeee; font-style: italic;">
     Made by logicLynx <i class="fa fa-heart"></i>
 </footer>

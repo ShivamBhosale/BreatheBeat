@@ -19,6 +19,14 @@
         <p>Take deep breaths and focus on the present moment</p>
     </div>
     <div class="stopwatch-container">
+        <div class="breathing-guide" id="breathingGuide">
+            <div class="breathing-container">
+                <div class="breathing-circle">
+                    <div class="breathing-particles" id="breathingParticles"></div>
+                    <div class="breathing-text" id="breathingText">Breathe</div>
+                </div>
+            </div>
+        </div>
         <div class="stopwatch" id="stopwatch">00:00:00</div>
         <div class="controls">
             <button onclick="startStopwatch()" class="control-btn start-btn">
@@ -32,6 +40,11 @@
             </button>
         </div>
         
+        <div class="volume-control">
+            <i class="fa fa-volume-down"></i>
+            <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="adjustVolume(this.value)">
+            <i class="fa fa-volume-up"></i>
+        </div>
     </div>
 
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>

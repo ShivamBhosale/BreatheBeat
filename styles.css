@@ -138,3 +138,326 @@ button:hover ~ .custom-cursor {
     transform: scale(1.5);
     background: rgba(255, 255, 255, 0.4);
 }
+
+/* Enhanced Breathing Guide */
+.breathing-guide {
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    width: 200px;
+    height: 200px;
+}
+
+.breathing-guide.active {
+    opacity: 1;
+}
+
+.breathing-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.breathing-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.breathing-circle::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: breathingPulse 10s ease-in-out infinite;
+}
+
+.breathing-circle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breathing-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.breathing-text {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 0.9em;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    transition: all 0.5s ease;
+}
+
+/* Breathing Animation Phases */
+.breathing-guide.phase-0 .breathing-circle {
+    transform: scale(1.4);
+    box-shadow: 
+        0 0 30px rgba(100, 255, 100, 0.3),
+        inset 0 0 30px rgba(100, 255, 100, 0.1);
+}
+
+.breathing-guide.phase-0 .breathing-circle::after {
+    border-color: rgba(100, 255, 100, 0.8);
+    box-shadow: 0 0 20px rgba(100, 255, 100, 0.4);
+}
+
+.breathing-guide.phase-1 .breathing-circle {
+    transform: scale(1.4);
+    box-shadow: 
+        0 0 30px rgba(255, 255, 100, 0.3),
+        inset 0 0 30px rgba(255, 255, 100, 0.1);
+}
+
+.breathing-guide.phase-1 .breathing-circle::after {
+    border-color: rgba(255, 255, 100, 0.8);
+    box-shadow: 0 0 20px rgba(255, 255, 100, 0.4);
+}
+
+.breathing-guide.phase-2 .breathing-circle {
+    transform: scale(0.7);
+    box-shadow: 
+        0 0 20px rgba(100, 150, 255, 0.3),
+        inset 0 0 20px rgba(100, 150, 255, 0.1);
+}
+
+.breathing-guide.phase-2 .breathing-circle::after {
+    border-color: rgba(100, 150, 255, 0.8);
+    box-shadow: 0 0 15px rgba(100, 150, 255, 0.4);
+}
+
+.breathing-guide.phase-3 .breathing-circle {
+    transform: scale(0.7);
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.breathing-guide.phase-3 .breathing-circle::after {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Breathing Pulse Animation */
+@keyframes breathingPulse {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.6; 
+        transform: scale(1.2);
+    }
+}
+
+/* Particle Animations */
+@keyframes particleFloat {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0);
+    }
+}
+
+.breathing-guide.phase-0 .particle {
+    animation: particleFloat 2s ease-out infinite;
+}
+
+.breathing-guide.phase-2 .particle {
+    animation: particleFloat 2s ease-in infinite reverse;
+}
+
+/* Volume Control */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: white;
+}
+
+.volume-control input[type="range"] {
+    width: 150px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    border-radius: 5px;
+    -webkit-appearance: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+/*
+ Mobile Responsiveness */
+@media (max-width: 768px) {
+    .stopwatch {
+        font-size: 4em;
+    }
+    
+    .heading {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    
+    .controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .controls button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+    
+    .breathing-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .breathing-text {
+        font-size: 0.8em;
+    }
+    
+    .volume-control input[type="range"] {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stopwatch {
+        font-size: 3em;
+    }
+    
+    .heading {
+        font-size: 1.8em;
+    }
+    
+    .navbar a {
+        font-size: 1em;
+        padding: 6px 15px;
+    }
+    
+    .breathing-guide {
+        top: -80px;
+    }
+    
+    .breathing-circle {
+        width: 80px;
+        height: 80px;
+    }
+}/* Global Br
+eathing Effect */
+body.glow-animation {
+    animation: gradientFlow 15s ease infinite, breathingGlow 10s ease-in-out infinite;
+}
+
+@keyframes breathingGlow {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+    }
+    25% {
+        filter: brightness(1.05) saturate(1.1);
+    }
+    50% {
+        filter: brightness(1.1) saturate(1.2);
+    }
+    75% {
+        filter: brightness(1.05) saturate(1.1);
+    }
+}
+
+/* Enhanced breathing guide for mobile */
+@media (max-width: 768px) {
+    .breathing-guide {
+        top: -120px;
+        width: 160px;
+        height: 160px;
+    }
+    
+    .breathing-circle {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .breathing-guide {
+        top: -100px;
+        width: 140px;
+        height: 140px;
+    }
+    
+    .breathing-circle {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .breathing-text {
+        font-size: 0.8em;
+    }
+}
