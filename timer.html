@@ -35,6 +35,12 @@
         <p><i class="fa fa-headphones"></i> Use headphones for immersion</p>
     </div>
     <div class="timer-container">
+        <!-- Stats Dashboard (Shared) -->
+        <div class="stats-container" style="margin-bottom: 30px;">
+            <div class="stat-item" id="streakDisplay">🔥 0 Day Streak</div>
+            <div class="stat-item" id="minutesDisplay">🧘 0 Mindful Mins</div>
+        </div>
+
         <div class="progress-ring" id="progressRing">
             <svg class="progress-ring-svg" width="300" height="300">
                 <circle class="progress-ring-circle-bg" cx="150" cy="150" r="140" />
@@ -72,6 +78,7 @@
     <audio id="timerAudio2" src="sounds/alarm.mp3" preload="auto" loop></audio>
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>
     <script src="theme.js"></script>
+    <script src="stats.js"></script>
     <script src="timer.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </body>

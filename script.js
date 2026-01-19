@@ -2,6 +2,7 @@ let timer;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
+let startTime; // Track when the session started
 let breathingTimeout; // Store the timeout ID to clear it later
 let currentTechnique = 'relax'; // Default technique
 
@@ -44,6 +45,8 @@ function updateStopwatch() {
 function startStopwatch() {
     // Prevent multiple intervals
     if (timer) clearInterval(timer);
+    
+    startTime = Date.now(); // Record start time for accurate tracking
     
     timer = setInterval(function () {
         updateStopwatch();
@@ -141,6 +144,14 @@ function stopStopwatch() {
 
     document.body.classList.remove("glow-animation");
     audio.pause();
+
+    // Log the session stats
+    if (startTime) {
+        const endTime = Date.now();
+        const durationMinutes = (endTime - startTime) / 60000;
+        logSession(durationMinutes);
+        startTime = null; // Reset
+    }
 
     // Stop and Reset Breathing Guide
     const breathingGuide = document.getElementById("breathingGuide");

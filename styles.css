@@ -159,6 +159,46 @@ body {
     margin-top: 40px;
 }
 
+/* Stats Container */
+.stats-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 1s ease-out;
+}
+
+.stat-item {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-item i {
+    color: var(--accent-glow);
+    /* Will act as a fallback or subtle tint if we used icons */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Technique Selector */
 .technique-selector {
     margin-bottom: 40px;

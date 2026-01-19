@@ -64,6 +64,14 @@ function stopStopwatch() {
     // Timer completed
     playAudio();
     showCompletionMessage();
+    // Log full duration
+    logSession(initialTimerValue / 60);
+  } else {
+    // Log partial duration (if user stops early)
+    const elapsedSeconds = initialTimerValue - timerValue;
+    if (elapsedSeconds > 0) {
+        logSession(elapsedSeconds / 60);
+    }
   }
 
   // Reset timer
