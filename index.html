@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BreatheBeat: Take a divine break</title>
-    <link rel="shortcut icon" type="image/png" href="images/icon.png"/>
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+
+    <!-- Google Fonts: Outfit (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
-    
+
 </head>
+
 <body>
     <nav class="navbar">
         <a href="index.html" class="active">Stopwatch</a>
         <a href="timer.html">Timer</a>
     </nav>
-    <h1 class="heading">BreatheBeat : Your Meditation Companion</h1>
+    <h1 class="heading">BreatheBeat <span style="font-weight: 200; font-size: 0.7em; opacity: 0.8">Meditate &
+            Focus</span></h1>
     <div class="instructions">
-        <p><i class="fa fa-headphones"></i> Headphones recommended for the best experience</p>
-        <p>Take deep breaths and focus on the present moment</p>
+        <p><i class="fa fa-headphones"></i> Use headphones for immersion</p>
     </div>
+
     <div class="stopwatch-container">
+        <!-- Technique Selector -->
+        <div class="technique-selector">
+            <select id="breathingTechnique" onchange="changeTechnique()">
+                <option value="relax">Relax (4-7-8)</option>
+                <option value="box">Balance (Box Breathing)</option>
+                <option value="focus">Focus (4-2-4)</option>
+            </select>
+        </div>
+
         <div class="breathing-guide" id="breathingGuide">
             <div class="breathing-container">
                 <div class="breathing-circle">
                     <div class="breathing-particles" id="breathingParticles"></div>
-                    <div class="breathing-text" id="breathingText">Breathe</div>
+                    <div class="breathing-text" id="breathingText">Ready</div>
                 </div>
             </div>
         </div>
         <div class="stopwatch" id="stopwatch">00:00:00</div>
         <div class="controls">
             <button onclick="startStopwatch()" class="control-btn start-btn">
-                <i class="fa fa-play"></i> Start Session
+                <i class="fa fa-play"></i> Start
             </button>
             <button onclick="stopStopwatch()" class="control-btn pause-btn">
                 <i class="fa fa-pause"></i> Pause
@@ -39,7 +59,7 @@
                 <i class="fa fa-refresh"></i> Reset
             </button>
         </div>
-        
+
         <div class="volume-control">
             <i class="fa fa-volume-down"></i>
             <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="adjustVolume(this.value)">
@@ -50,9 +70,10 @@
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
-    
+
     <footer style="text-align: center; padding: 20px; color: #f6eeee; font-style: italic;">
         Made by logicLynx <i class="fa fa-heart"></i>
     </footer>
 </body>
+
 </html>

@@ -193,33 +193,4 @@ function createTimerParticles() {
   }
 }
 
-const cursor = document.createElement("div");
-cursor.classList.add("custom-cursor");
-document.body.appendChild(cursor);
-
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX - 10 + "px";
-  cursor.style.top = e.clientY - 10 + "px";
-});
-
-document.addEventListener("mousedown", () => {
-  cursor.classList.add("clicking");
-});
-
-document.addEventListener("mouseup", () => {
-  cursor.classList.remove("clicking");
-});
-
-const clickSound = new Audio("sounds/click.mp3"); // You'll need to add the actual audio file
-clickSound.volume = 0.2; // Adjust volume to be subtle (20% volume)
-
-// Add click sound to document
-document.addEventListener("mousedown", () => {
-  cursor.classList.add("clicking");
-  clickSound.currentTime = 0; // Reset sound to start
-  clickSound.play();
-});
-
-document.addEventListener("mouseup", () => {
-  cursor.classList.remove("clicking");
-});
+// End of timer logic

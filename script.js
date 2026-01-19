@@ -2,7 +2,24 @@ let timer;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
-let breathingTimer;
+let breathingTimeout; // Store the timeout ID to clear it later
+let currentTechnique = 'relax'; // Default technique
+
+// Breathing configurations (in ms)
+const breathingTechniques = {
+    'relax': { // 4-7-8
+        phases: ["Inhale", "Hold", "Exhale", "Hold"],
+        durations: [4000, 7000, 8000, 0] // 4-7-8 usually has no hold after exhale, but we keep structure
+    },
+    'box': { // 4-4-4-4
+        phases: ["Inhale", "Hold", "Exhale", "Hold"],
+        durations: [4000, 4000, 4000, 4000]
+    },
+    'focus': { // 4-2-4
+        phases: ["Inhale", "Hold", "Exhale", "Hold"],
+        durations: [4000, 2000, 4000, 0]
+    }
+};
 
 // Get the audio element
 const audio = document.getElementById("timerAudio");
@@ -25,145 +42,124 @@ function updateStopwatch() {
 }
 
 function startStopwatch() {
-  timer = setInterval(function () {
-    updateStopwatch();
-    // Start the glow animation only when the timer is ON
-    document.body.classList.add("glow-animation");
+    // Prevent multiple intervals
+    if (timer) clearInterval(timer);
+    
+    timer = setInterval(function () {
+        updateStopwatch();
+        document.body.classList.add("glow-animation");
+        audio.play().catch(e => console.log("Audio play failed interaction required"));
+    }, 1000);
 
-    // Play the audio only when the timer is ON
-    audio.play();
-  }, 1000);
+    startBreathingGuide();
+}
 
-  startBreathingGuide();
+function changeTechnique() {
+    const selector = document.getElementById('breathingTechnique');
+    currentTechnique = selector.value;
+    
+    // If running, restart the guide to apply changes immediately
+    const breathingGuide = document.getElementById("breathingGuide");
+    if (breathingGuide.classList.contains('active')) {
+        clearTimeout(breathingTimeout);
+        startBreathingGuide();
+    }
 }
 
 function startBreathingGuide() {
-  const breathingGuide = document.getElementById("breathingGuide");
-  const breathingText = document.getElementById("breathingText");
-  const breathingParticles = document.getElementById("breathingParticles");
-
-  breathingGuide.classList.add("active");
-
-  let phase = 0; // 0: inhale, 1: hold, 2: exhale, 3: hold
-  const phases = ["Breathe In", "Hold", "Breathe Out", "Hold"];
-  const durations = [4000, 1000, 4000, 1000]; // in milliseconds
-
-  // Create breathing particles
-  function createParticles() {
+    const breathingGuide = document.getElementById("breathingGuide");
+    const breathingText = document.getElementById("breathingText");
+    const breathingParticles = document.getElementById("breathingParticles");
+    
+    breathingGuide.classList.add("active");
+    
+    let phase = 0;
+    // Get current config
+    const config = breathingTechniques[currentTechnique];
+    // Filter out 0 duration phases (e.g. for 4-7-8 or 4-2-4 if we want no hold)
+    // Actually simpler to just run the cycle and skip 0ms phases logic inside or just accept 0ms delay
+    
+    // Re-create particles
     breathingParticles.innerHTML = "";
     for (let i = 0; i < 12; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-
-      // Random position around the circle
-      const angle = (i / 12) * 2 * Math.PI;
-      const radius = 50;
-      const x = Math.cos(angle) * radius + 50;
-      const y = Math.sin(angle) * radius + 50;
-
-      particle.style.left = x + "%";
-      particle.style.top = y + "%";
-      particle.style.animationDelay = i * 0.1 + "s";
-
-      breathingParticles.appendChild(particle);
-    }
-  }
-
-  createParticles();
-
-  function cycleBreathing() {
-    breathingText.textContent = phases[phase];
-    breathingGuide.className = `breathing-guide active phase-${phase}`;
-
-    // Add subtle text animation based on phase
-    if (phase === 0) {
-      // Inhale
-      breathingText.style.transform = "scale(1.1)";
-      breathingText.style.color = "rgba(100, 255, 100, 0.9)";
-    } else if (phase === 2) {
-      // Exhale
-      breathingText.style.transform = "scale(0.9)";
-      breathingText.style.color = "rgba(100, 150, 255, 0.9)";
-    } else {
-      // Hold
-      breathingText.style.transform = "scale(1)";
-      breathingText.style.color = "rgba(255, 255, 255, 0.9)";
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        // Random position around the circle
+        const angle = (i / 12) * 2 * Math.PI;
+        const radius = 50; // percentage
+        const x = Math.cos(angle) * radius + 50;
+        const y = Math.sin(angle) * radius + 50;
+        
+        particle.style.left = x + "%";
+        particle.style.top = y + "%";
+        particle.style.animationDelay = i * 0.1 + "s";
+        breathingParticles.appendChild(particle);
     }
 
-    setTimeout(() => {
-      phase = (phase + 1) % 4;
-      cycleBreathing();
-    }, durations[phase]);
-  }
+    function cycleBreathing() {
+        const currentDurations = breathingTechniques[currentTechnique].durations;
+        const currentPhases = breathingTechniques[currentTechnique].phases;
 
-  cycleBreathing();
+        // Skip phases with 0 duration
+        if (currentDurations[phase] <= 0) {
+            phase = (phase + 1) % 4;
+            cycleBreathing(); // Recursively call next phase immediately
+            return;
+        }
+
+        breathingText.textContent = currentPhases[phase];
+        
+        // Remove old phase classes
+        breathingGuide.classList.remove('phase-0', 'phase-1', 'phase-2', 'phase-3');
+        breathingGuide.classList.add(`phase-${phase}`);
+        
+        // Text styling per phase
+        if (phase === 0) { // Inhale
+            breathingText.style.opacity = "1";
+            breathingText.style.letterSpacing = "2px";
+        } else if (phase === 2) { // Exhale
+            breathingText.style.opacity = "0.8";
+            breathingText.style.letterSpacing = "1px";
+        } else { // Hold
+            breathingText.style.opacity = "0.9";
+            breathingText.style.letterSpacing = "1px";
+        }
+
+        // Schedule next phase
+        breathingTimeout = setTimeout(() => {
+            phase = (phase + 1) % 4;
+            cycleBreathing();
+        }, currentDurations[phase]);
+    }
+
+    cycleBreathing();
 }
 
 function stopStopwatch() {
-  clearInterval(timer);
+    clearInterval(timer);
+    timer = null;
 
-  // Stop the glow animation when the timer is OFF
-  document.body.classList.remove("glow-animation");
+    document.body.classList.remove("glow-animation");
+    audio.pause();
 
-  // Pause the audio when the timer is OFF
-  audio.pause();
-
-  // Stop breathing guide
-  const breathingGuide = document.getElementById("breathingGuide");
-  breathingGuide.classList.remove("active");
+    // Stop and Reset Breathing Guide
+    const breathingGuide = document.getElementById("breathingGuide");
+    breathingGuide.classList.remove("active");
+    clearTimeout(breathingTimeout); // Important: Stop the loop!
+    
+    document.getElementById("breathingText").innerText = "Ready";
 }
 
 function resetStopwatch() {
-  clearInterval(timer);
-  seconds = 0;
-  minutes = 0;
-  hours = 0;
-  document.getElementById("stopwatch").innerText = "00:00:00";
-
-  // Stop the glow animation when the timer is OFF
-  document.body.classList.remove("glow-animation");
-
-  // Pause and reset the audio when the timer is OFF
-  audio.pause();
-  audio.currentTime = 0;
-
-  // Stop breathing guide
-  const breathingGuide = document.getElementById("breathingGuide");
-  breathingGuide.classList.remove("active");
+    stopStopwatch(); // Re-use stop logic
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    document.getElementById("stopwatch").innerText = "00:00:00";
+    audio.currentTime = 0;
 }
 
 function adjustVolume(value) {
-  const volume = value / 100;
-  audio.volume = volume;
+    const volume = value / 100;
+    audio.volume = volume;
 }
-
-const cursor = document.createElement("div");
-cursor.classList.add("custom-cursor");
-document.body.appendChild(cursor);
-
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX - 10 + "px";
-  cursor.style.top = e.clientY - 10 + "px";
-});
-
-document.addEventListener("mousedown", () => {
-  cursor.classList.add("clicking");
-});
-
-document.addEventListener("mouseup", () => {
-  cursor.classList.remove("clicking");
-});
-
-const clickSound = new Audio("sounds/click.mp3"); // You'll need to add the actual audio file
-clickSound.volume = 0.2; // Adjust volume to be subtle (20% volume)
-
-// Add click sound to document
-document.addEventListener("mousedown", () => {
-  cursor.classList.add("clicking");
-  clickSound.currentTime = 0; // Reset sound to start
-  clickSound.play();
-});
-
-document.addEventListener("mouseup", () => {
-  cursor.classList.remove("clicking");
-});
