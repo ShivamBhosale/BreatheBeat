@@ -139,16 +139,16 @@ button:hover ~ .custom-cursor {
     background: rgba(255, 255, 255, 0.4);
 }
 
-/* Enhanced Breathing Guide */
+/* Simple Breathing Guide */
 .breathing-guide {
     position: absolute;
-    top: -150px;
+    top: -120px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.5s ease;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
 }
 
 .breathing-guide.active {
@@ -175,6 +175,7 @@ button:hover ~ .custom-cursor {
     transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
     overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .breathing-circle::before {
@@ -187,18 +188,6 @@ button:hover ~ .custom-cursor {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     animation: breathingPulse 10s ease-in-out infinite;
-}
-
-.breathing-circle::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .breathing-particles {
@@ -231,50 +220,34 @@ button:hover ~ .custom-cursor {
 /* Breathing Animation Phases */
 .breathing-guide.phase-0 .breathing-circle {
     transform: scale(1.4);
+    border-color: rgba(100, 255, 100, 0.8);
     box-shadow: 
         0 0 30px rgba(100, 255, 100, 0.3),
         inset 0 0 30px rgba(100, 255, 100, 0.1);
 }
 
-.breathing-guide.phase-0 .breathing-circle::after {
-    border-color: rgba(100, 255, 100, 0.8);
-    box-shadow: 0 0 20px rgba(100, 255, 100, 0.4);
-}
-
 .breathing-guide.phase-1 .breathing-circle {
     transform: scale(1.4);
+    border-color: rgba(255, 255, 100, 0.8);
     box-shadow: 
         0 0 30px rgba(255, 255, 100, 0.3),
         inset 0 0 30px rgba(255, 255, 100, 0.1);
 }
 
-.breathing-guide.phase-1 .breathing-circle::after {
-    border-color: rgba(255, 255, 100, 0.8);
-    box-shadow: 0 0 20px rgba(255, 255, 100, 0.4);
-}
-
 .breathing-guide.phase-2 .breathing-circle {
     transform: scale(0.7);
+    border-color: rgba(100, 150, 255, 0.8);
     box-shadow: 
         0 0 20px rgba(100, 150, 255, 0.3),
         inset 0 0 20px rgba(100, 150, 255, 0.1);
 }
 
-.breathing-guide.phase-2 .breathing-circle::after {
-    border-color: rgba(100, 150, 255, 0.8);
-    box-shadow: 0 0 15px rgba(100, 150, 255, 0.4);
-}
-
 .breathing-guide.phase-3 .breathing-circle {
     transform: scale(0.7);
+    border-color: rgba(255, 255, 255, 0.6);
     box-shadow: 
         0 0 20px rgba(255, 255, 255, 0.2),
         inset 0 0 20px rgba(255, 255, 255, 0.05);
-}
-
-.breathing-guide.phase-3 .breathing-circle::after {
-    border-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 /* Breathing Pulse Animation */
@@ -431,33 +404,48 @@ body.glow-animation {
     }
 }
 
-/* Enhanced breathing guide for mobile */
+/* Mobile Responsiveness for Large Breathing Visualization */
 @media (max-width: 768px) {
-    .breathing-guide {
-        top: -120px;
-        width: 160px;
-        height: 160px;
+    .breathing-orb-container {
+        width: 300px;
+        height: 300px;
     }
     
-    .breathing-circle {
-        width: 100px;
-        height: 100px;
+    .breathing-orb {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .breathing-text-large {
+        font-size: 1em;
+    }
+    
+    .stopwatch {
+        font-size: 4em;
     }
 }
 
 @media (max-width: 480px) {
-    .breathing-guide {
-        top: -100px;
-        width: 140px;
-        height: 140px;
+    .breathing-orb-container {
+        width: 250px;
+        height: 250px;
     }
     
-    .breathing-circle {
-        width: 80px;
-        height: 80px;
+    .breathing-orb {
+        width: 180px;
+        height: 180px;
     }
     
-    .breathing-text {
-        font-size: 0.8em;
+    .breathing-text-large {
+        font-size: 0.9em;
+    }
+    
+    .stopwatch {
+        font-size: 3em;
+    }
+    
+    .floating-particle {
+        width: 4px;
+        height: 4px;
     }
 }

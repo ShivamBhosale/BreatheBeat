@@ -109,8 +109,10 @@ function stopStopwatch() {
   audio.pause();
 
   // Stop breathing guide
-  const breathingGuide = document.getElementById("breathingGuide");
-  breathingGuide.classList.remove("active");
+  const breathingVisualization = document.getElementById(
+    "breathingVisualization"
+  );
+  breathingVisualization.classList.remove("active");
 }
 
 function resetStopwatch() {
@@ -128,8 +130,10 @@ function resetStopwatch() {
   audio.currentTime = 0;
 
   // Stop breathing guide
-  const breathingGuide = document.getElementById("breathingGuide");
-  breathingGuide.classList.remove("active");
+  const breathingVisualization = document.getElementById(
+    "breathingVisualization"
+  );
+  breathingVisualization.classList.remove("active");
 }
 
 function adjustVolume(value) {
