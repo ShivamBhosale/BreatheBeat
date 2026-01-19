@@ -1,11 +1,28 @@
 :root {
+    /* Default (Midnight) */
     --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+    --accent-glow: rgba(139, 92, 246, 0.3);
+
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-hover: rgba(255, 255, 255, 0.1);
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
-    --accent-glow: rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="ocean"] {
+    --bg-gradient: linear-gradient(135deg, #0f2e4a 0%, #1e4b6e 50%, #2a7a96 100%);
+    --accent-glow: rgba(56, 189, 248, 0.3);
+}
+
+[data-theme="forest"] {
+    --bg-gradient: linear-gradient(135deg, #052e16 0%, #14532d 50%, #15803d 100%);
+    --accent-glow: rgba(74, 222, 128, 0.3);
+}
+
+[data-theme="sunset"] {
+    --bg-gradient: linear-gradient(135deg, #451a03 0%, #7c2d12 50%, #b45309 100%);
+    --accent-glow: rgba(251, 146, 60, 0.3);
 }
 
 * {
@@ -73,6 +90,45 @@ body {
     color: white;
     background: var(--glass-hover);
     box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Theme Selector (Top Right) */
+.theme-selector-container {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 1001;
+}
+
+.theme-selector-container select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+}
+
+.theme-selector-container select:hover {
+    background: var(--glass-hover);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.theme-selector-container select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 .heading {
