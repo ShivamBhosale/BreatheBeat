@@ -25,6 +25,8 @@ function setTimer(seconds) {
 }
 
 const audio2 = document.getElementById("timerAudio");
+const soundCueAudio = document.getElementById("soundCueAudio");
+
 
 function startStopwatch() {
   if (timerValue > 0 && !timer) {
@@ -154,6 +156,18 @@ function startTimerBreathing() {
 
   function cycleTimerBreathing() {
     breathingInstruction.textContent = phases[breathingPhase];
+    
+    // Voice & Sound Logic
+    const voiceEnabled = document.getElementById('voiceToggle').checked;
+    const soundEnabled = document.getElementById('soundCueToggle').checked;
+
+    if (voiceEnabled) {
+        speakText(phases[breathingPhase]);
+    }
+    if (soundEnabled) {
+        soundCueAudio.currentTime = 0;
+        soundCueAudio.play().catch(() => {});
+    }
     progressRing.className = `progress-ring ${phaseClasses[breathingPhase]}`;
 
     breathingTimer = setTimeout(() => {
@@ -199,6 +213,17 @@ function createTimerParticles() {
 
     breathingParticles.appendChild(particle);
   }
+}
+
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.85; 
+        utterance.pitch = 1; 
+        utterance.volume = 0.6;
+        window.speechSynthesis.speak(utterance);
+    }
 }
 
 // End of timer logic

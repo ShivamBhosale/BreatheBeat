@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BreatheBeat: Take a divine break</title>
     <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <link rel="manifest" href="manifest.json">
 
     <!-- Google Fonts: Outfit (Headings) & Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +68,17 @@
         <button class="controls-button" onclick="stopStopwatch()"><i class="fa fa-stop"></i> Reset</button>
     </div>
 
+    <div class="settings-controls">
+        <label class="toggle-btn" title="Voice Guide">
+            <input type="checkbox" id="voiceToggle">
+            <span>🎤 Voice</span>
+        </label>
+        <label class="toggle-btn" title="Sound Cues">
+            <input type="checkbox" id="soundCueToggle">
+            <span>🔔 Sound</span>
+        </label>
+    </div>
+
     <div class="volume-control">
         <i class="fa fa-volume-down"></i>
         <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="adjustVolume(this.value)">
@@ -77,6 +89,7 @@
     </footer>
     <audio id="timerAudio2" src="sounds/alarm.mp3" preload="auto" loop></audio>
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>
+    <audio id="soundCueAudio" src="sounds/click.mp3" preload="auto"></audio>
     <script src="theme.js"></script>
     <script src="stats.js"></script>
     <script src="timer.js"></script>

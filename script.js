@@ -24,6 +24,7 @@ const breathingTechniques = {
 
 // Get the audio element
 const audio = document.getElementById("timerAudio");
+const soundCueAudio = document.getElementById("soundCueAudio");
 
 function updateStopwatch() {
   seconds++;
@@ -112,6 +113,18 @@ function startBreathingGuide() {
 
         breathingText.textContent = currentPhases[phase];
         
+        // Voice & Sound Logic
+        const voiceEnabled = document.getElementById('voiceToggle').checked;
+        const soundEnabled = document.getElementById('soundCueToggle').checked;
+        
+        if (voiceEnabled) {
+            speakText(currentPhases[phase]);
+        }
+        if (soundEnabled) {
+            soundCueAudio.currentTime = 0;
+            soundCueAudio.play().catch(() => {});
+        }
+        
         // Remove old phase classes
         breathingGuide.classList.remove('phase-0', 'phase-1', 'phase-2', 'phase-3');
         breathingGuide.classList.add(`phase-${phase}`);
@@ -173,4 +186,15 @@ function resetStopwatch() {
 function adjustVolume(value) {
     const volume = value / 100;
     audio.volume = volume;
+}
+
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop previous
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.85; 
+        utterance.pitch = 1; 
+        utterance.volume = 0.6;
+        window.speechSynthesis.speak(utterance);
+    }
 }

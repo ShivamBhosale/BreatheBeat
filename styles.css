@@ -475,3 +475,43 @@ footer {
     font-size: 0.8em;
     opacity: 0.6;
 }
+
+/* Settings Toggles */
+.settings-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.toggle-btn input {
+    display: none;
+}
+
+.toggle-btn:has(input:checked) {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px var(--accent-glow);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
