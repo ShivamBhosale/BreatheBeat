@@ -1,8 +1,8 @@
 let timer;
 let timerValue = 0;
 let initialTimerValue = 0;
-let audio;
-let isPaused = false;
+// let audio; // This was for alarm
+// let isPaused = false;
 let breathingTimer;
 let breathingPhase = 0;
 
@@ -24,7 +24,7 @@ function setTimer(seconds) {
   updateProgressRing();
 }
 
-const audio2 = document.getElementById("timerAudio");
+// const audio2 = document.getElementById("timerAudio"); // Music logic moved to mixer
 const soundCueAudio = document.getElementById("soundCueAudio");
 
 
@@ -40,7 +40,11 @@ function startStopwatch() {
       updateTimerDisplay();
       updateProgressRing();
     }, 1000);
-    audio2.play();
+    
+    if (typeof audioMixer !== 'undefined') {
+        audioMixer.play();
+    }
+    
     document.body.classList.add("timer-active");
     startTimerBreathing();
   }
@@ -51,7 +55,11 @@ function pauseTimer() {
     clearInterval(timer);
     timer = null;
     isPaused = true;
-    audio2.pause();
+    
+    if (typeof audioMixer !== 'undefined') {
+        audioMixer.pause();
+    }
+    
     document.body.classList.remove("timer-active");
     stopTimerBreathing();
   }
@@ -80,7 +88,11 @@ function stopStopwatch() {
   timerValue = initialTimerValue;
   updateTimerDisplay();
   updateProgressRing();
-  audio2.pause();
+  
+  if (typeof audioMixer !== 'undefined') {
+      audioMixer.pause();
+  }
+
   document.body.classList.remove("timer-active");
   stopTimerBreathing();
 }
@@ -123,11 +135,12 @@ function updateProgressRing() {
   }
 }
 
-function adjustVolume(value) {
-  const volume = value / 100;
-  audio2.volume = volume;
-  if (audio) audio.volume = volume;
-}
+// Adjust Volume handled by Mixer now
+// function adjustVolume(value) {
+//   const volume = value / 100;
+//   audio2.volume = volume;
+//   if (audio) audio.volume = volume;
+// }
 
 function showCompletionMessage() {
   const message = document.createElement("div");

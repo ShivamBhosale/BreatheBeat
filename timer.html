@@ -79,10 +79,33 @@
         </label>
     </div>
 
-    <div class="volume-control">
-        <i class="fa fa-volume-down"></i>
-        <input type="range" id="volumeSlider" min="0" max="100" value="50" onchange="adjustVolume(this.value)">
-        <i class="fa fa-volume-up"></i>
+    <div class="mixer-control-container">
+        <button class="mixer-toggle-btn" onclick="toggleMixerPanel()">
+            <i class="fa fa-sliders"></i> Mix Soundscape
+        </button>
+
+        <div class="mixer-panel" id="mixerPanel">
+            <div class="mixer-track">
+                <div class="track-label"><span>Lofi Music</span> <span id="vol-music">50%</span></div>
+                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0.5"
+                    oninput="audioMixer.setVolume('music', this.value); document.getElementById('vol-music').innerText = Math.round(this.value*100) + '%'">
+            </div>
+            <div class="mixer-track">
+                <div class="track-label"><span>White Noise</span> <span id="vol-white">0%</span></div>
+                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
+                    oninput="audioMixer.setVolume('white', this.value); document.getElementById('vol-white').innerText = Math.round(this.value*100) + '%'">
+            </div>
+            <div class="mixer-track">
+                <div class="track-label"><span>Pink Noise</span> <span id="vol-pink">0%</span></div>
+                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
+                    oninput="audioMixer.setVolume('pink', this.value); document.getElementById('vol-pink').innerText = Math.round(this.value*100) + '%'">
+            </div>
+            <div class="mixer-track">
+                <div class="track-label"><span>Brown Noise</span> <span id="vol-brown">0%</span></div>
+                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
+                    oninput="audioMixer.setVolume('brown', this.value); document.getElementById('vol-brown').innerText = Math.round(this.value*100) + '%'">
+            </div>
+        </div>
     </div>
     <footer style="text-align: center; padding: 20px; color: #f6eeee; font-style: italic;">
         Made by logicLynx <i class="fa fa-heart"></i>
@@ -92,6 +115,7 @@
     <audio id="soundCueAudio" src="sounds/click.mp3" preload="auto"></audio>
     <script src="theme.js"></script>
     <script src="stats.js"></script>
+    <script src="audio-mixer.js"></script>
     <script src="timer.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </body>

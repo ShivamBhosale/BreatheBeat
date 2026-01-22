@@ -22,8 +22,9 @@ const breathingTechniques = {
     }
 };
 
-// Get the audio element
-const audio = document.getElementById("timerAudio");
+// Audio Mixer (global `audioMixer` from audio-mixer.js is used)
+// We remove direct reference to the element for playback control
+// const audio = document.getElementById("timerAudio");
 const soundCueAudio = document.getElementById("soundCueAudio");
 
 function updateStopwatch() {
@@ -52,7 +53,9 @@ function startStopwatch() {
     timer = setInterval(function () {
         updateStopwatch();
         document.body.classList.add("glow-animation");
-        audio.play().catch(e => console.log("Audio play failed interaction required"));
+        if (typeof audioMixer !== 'undefined') {
+            audioMixer.play();
+        }
     }, 1000);
 
     startBreathingGuide();
@@ -156,7 +159,10 @@ function stopStopwatch() {
     timer = null;
 
     document.body.classList.remove("glow-animation");
-    audio.pause();
+    
+    if (typeof audioMixer !== 'undefined') {
+        audioMixer.pause();
+    }
 
     // Log the session stats
     if (startTime) {
@@ -180,13 +186,11 @@ function resetStopwatch() {
     minutes = 0;
     hours = 0;
     document.getElementById("stopwatch").innerText = "00:00:00";
-    audio.currentTime = 0;
+    // Audio reset logic is handled by mixer regarding pause, but we might want to reset track time?
+    // audio.currentTime = 0; // The mixer doesn't strictly reset time for endless loops
 }
 
-function adjustVolume(value) {
-    const volume = value / 100;
-    audio.volume = volume;
-}
+// Volume adjustment removed (handled by mixer UI)
 
 function speakText(text) {
     if ('speechSynthesis' in window) {
