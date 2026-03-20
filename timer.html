@@ -19,24 +19,15 @@
 </head>
 
 <body>
-    <div class="theme-selector-container">
-        <select id="themeSelect">
-            <option value="midnight">🌑 Midnight</option>
-            <option value="ocean">🌊 Ocean Calm</option>
-            <option value="forest">🌲 Forest Zen</option>
-            <option value="sunset">🌅 Sunset Bliss</option>
-        </select>
-    </div>
     <nav class="navbar">
         <a href="index.html">Stopwatch</a>
         <a href="timer.html" class="active">Timer</a>
     </nav>
+
     <h1 class="heading">BreatheBeat <span style="font-weight: 200; font-size: 0.7em; opacity: 0.8">Timer</span></h1>
-    <div class="instructions">
-        <p><i class="fa fa-headphones"></i> Use headphones for immersion</p>
-    </div>
+
     <div class="timer-container">
-        <!-- Stats Dashboard (Shared) -->
+        <!-- Stats Dashboard -->
         <div class="stats-container" style="margin-bottom: 30px;">
             <div class="stat-item" id="streakDisplay">🔥 0 Day Streak</div>
             <div class="stat-item" id="minutesDisplay">🧘 0 Mindful Mins</div>
@@ -68,48 +59,10 @@
         <button class="controls-button" onclick="stopStopwatch()"><i class="fa fa-stop"></i> Reset</button>
     </div>
 
-    <div class="settings-controls">
-        <label class="toggle-btn" title="Voice Guide">
-            <input type="checkbox" id="voiceToggle">
-            <span>🎤 Voice</span>
-        </label>
-        <label class="toggle-btn" title="Sound Cues">
-            <input type="checkbox" id="soundCueToggle">
-            <span>🔔 Sound</span>
-        </label>
-    </div>
-
-    <div class="mixer-control-container">
-        <button class="mixer-toggle-btn" onclick="toggleMixerPanel()">
-            <i class="fa fa-sliders"></i> Mix Soundscape
-        </button>
-
-        <div class="mixer-panel" id="mixerPanel">
-            <div class="mixer-track">
-                <div class="track-label"><span>Lofi Music</span> <span id="vol-music">50%</span></div>
-                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0.5"
-                    oninput="audioMixer.setVolume('music', this.value); document.getElementById('vol-music').innerText = Math.round(this.value*100) + '%'">
-            </div>
-            <div class="mixer-track">
-                <div class="track-label"><span>White Noise</span> <span id="vol-white">0%</span></div>
-                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
-                    oninput="audioMixer.setVolume('white', this.value); document.getElementById('vol-white').innerText = Math.round(this.value*100) + '%'">
-            </div>
-            <div class="mixer-track">
-                <div class="track-label"><span>Pink Noise</span> <span id="vol-pink">0%</span></div>
-                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
-                    oninput="audioMixer.setVolume('pink', this.value); document.getElementById('vol-pink').innerText = Math.round(this.value*100) + '%'">
-            </div>
-            <div class="mixer-track">
-                <div class="track-label"><span>Brown Noise</span> <span id="vol-brown">0%</span></div>
-                <input type="range" class="track-slider" min="0" max="1" step="0.01" value="0"
-                    oninput="audioMixer.setVolume('brown', this.value); document.getElementById('vol-brown').innerText = Math.round(this.value*100) + '%'">
-            </div>
-        </div>
-    </div>
     <footer style="text-align: center; padding: 20px; color: #f6eeee; font-style: italic;">
         Made by logicLynx <i class="fa fa-heart"></i>
     </footer>
+
     <audio id="timerAudio2" src="sounds/alarm.mp3" preload="auto" loop></audio>
     <audio id="timerAudio" src="sounds/lofi.mp3" preload="auto" loop></audio>
     <audio id="soundCueAudio" src="sounds/click.mp3" preload="auto"></audio>

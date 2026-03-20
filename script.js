@@ -25,7 +25,7 @@ const breathingTechniques = {
 // Audio Mixer (global `audioMixer` from audio-mixer.js is used)
 // We remove direct reference to the element for playback control
 // const audio = document.getElementById("timerAudio");
-const soundCueAudio = document.getElementById("soundCueAudio");
+
 
 function updateStopwatch() {
   seconds++;
@@ -116,17 +116,7 @@ function startBreathingGuide() {
 
         breathingText.textContent = currentPhases[phase];
         
-        // Voice & Sound Logic
-        const voiceEnabled = document.getElementById('voiceToggle').checked;
-        const soundEnabled = document.getElementById('soundCueToggle').checked;
-        
-        if (voiceEnabled) {
-            speakText(currentPhases[phase]);
-        }
-        if (soundEnabled) {
-            soundCueAudio.currentTime = 0;
-            soundCueAudio.play().catch(() => {});
-        }
+
         
         // Remove old phase classes
         breathingGuide.classList.remove('phase-0', 'phase-1', 'phase-2', 'phase-3');
