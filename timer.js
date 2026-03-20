@@ -25,7 +25,7 @@ function setTimer(seconds) {
 }
 
 // const audio2 = document.getElementById("timerAudio"); // Music logic moved to mixer
-
+const music = document.getElementById('timerAudio');
 
 
 function startStopwatch() {
@@ -42,6 +42,7 @@ function startStopwatch() {
     }, 1000);
     
     document.body.classList.add("timer-active");
+    if (music) { music.play().catch(() => {}); }
     startTimerBreathing();
   }
 }
@@ -53,6 +54,7 @@ function pauseTimer() {
     isPaused = true;
     
     document.body.classList.remove("timer-active");
+    if (music) { music.pause(); }
     stopTimerBreathing();
   }
 }
@@ -75,6 +77,7 @@ function stopStopwatch() {
   updateProgressRing();
 
   document.body.classList.remove("timer-active");
+  if (music) { music.pause(); music.currentTime = 0; }
   stopTimerBreathing();
 }
 

@@ -2,9 +2,10 @@ let timer;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
-let startTime; // Track when the session started
-let breathingTimeout; // Store the timeout ID to clear it later
-let currentTechnique = 'relax'; // Default technique
+let startTime;
+let breathingTimeout;
+let currentTechnique = 'relax';
+const music = document.getElementById('timerAudio');
 
 // Breathing configurations (in ms)
 const breathingTechniques = {
@@ -54,6 +55,8 @@ function startStopwatch() {
         updateStopwatch();
         document.body.classList.add("glow-animation");
     }, 1000);
+
+    if (music) { music.play().catch(() => {}); }
 
     startBreathingGuide();
 }
@@ -146,6 +149,7 @@ function stopStopwatch() {
     timer = null;
 
     document.body.classList.remove("glow-animation");
+    if (music) { music.pause(); }
 
     // Stop and Reset Breathing Guide
     const breathingGuide = document.getElementById("breathingGuide");
