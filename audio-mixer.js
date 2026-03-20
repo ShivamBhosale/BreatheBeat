@@ -40,15 +40,20 @@ class AudioMixer {
     }
 
     createNoiseBuffer(type) {
-        const bufferSize = 2 * this.ctx.sampleRate;
+        // Use a large buffer (30s) so the hard loop boundary is extremely infrequent.
+        const bufferSize = 30 * this.ctx.sampleRate;
         const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
         const output = buffer.getChannelData(0);
+
+        // Number of samples to crossfade at the loop seam to eliminate clicks.
+        const fadeLen = Math.floor(this.ctx.sampleRate * 0.05); // 50 ms
 
         if (type === 'white') {
             for (let i = 0; i < bufferSize; i++) {
                 output[i] = Math.random() * 2 - 1;
             }
         } else if (type === 'pink') {
+            // b6 must be initialised before the loop to avoid undefined on first iteration.
             let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
             for (let i = 0; i < bufferSize; i++) {
                 const white = Math.random() * 2 - 1;
@@ -58,9 +63,8 @@ class AudioMixer {
                 b3 = 0.86650 * b3 + white * 0.3104856;
                 b4 = 0.55000 * b4 + white * 0.5329522;
                 b5 = -0.7616 * b5 - white * 0.0168980;
-                output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-                output[i] *= 0.11; // compensate for gain
                 b6 = white * 0.115926;
+                output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
             }
         } else if (type === 'brown') {
             let lastOut = 0;
@@ -71,6 +75,16 @@ class AudioMixer {
                 output[i] *= 3.5; // compensate for gain
             }
         }
+
+        // Crossfade the tail into silence so the loop boundary is click-free.
+        for (let i = 0; i < fadeLen; i++) {
+            const t = i / fadeLen;
+            // Fade in at the start
+            output[i] *= t;
+            // Fade out at the end
+            output[bufferSize - 1 - i] *= t;
+        }
+
         return buffer;
     }
 
