@@ -53,9 +53,6 @@ function startStopwatch() {
     timer = setInterval(function () {
         updateStopwatch();
         document.body.classList.add("glow-animation");
-        if (typeof audioMixer !== 'undefined') {
-            audioMixer.play();
-        }
     }, 1000);
 
     startBreathingGuide();
@@ -149,23 +146,11 @@ function stopStopwatch() {
     timer = null;
 
     document.body.classList.remove("glow-animation");
-    
-    if (typeof audioMixer !== 'undefined') {
-        audioMixer.pause();
-    }
-
-    // Log the session stats
-    if (startTime) {
-        const endTime = Date.now();
-        const durationMinutes = (endTime - startTime) / 60000;
-        logSession(durationMinutes);
-        startTime = null; // Reset
-    }
 
     // Stop and Reset Breathing Guide
     const breathingGuide = document.getElementById("breathingGuide");
     breathingGuide.classList.remove("active");
-    clearTimeout(breathingTimeout); // Important: Stop the loop!
+    clearTimeout(breathingTimeout);
     
     document.getElementById("breathingText").innerText = "Ready";
 }

@@ -25,11 +25,11 @@ function setTimer(seconds) {
 }
 
 // const audio2 = document.getElementById("timerAudio"); // Music logic moved to mixer
-const soundCueAudio = document.getElementById("soundCueAudio");
+
 
 
 function startStopwatch() {
-  if (timerValue > 0 && !timer) {
+    if (timerValue > 0 && !timer) {
     isPaused = false;
     timer = setInterval(() => {
       timerValue--;
@@ -40,10 +40,6 @@ function startStopwatch() {
       updateTimerDisplay();
       updateProgressRing();
     }, 1000);
-    
-    if (typeof audioMixer !== 'undefined') {
-        audioMixer.play();
-    }
     
     document.body.classList.add("timer-active");
     startTimerBreathing();
@@ -56,10 +52,6 @@ function pauseTimer() {
     timer = null;
     isPaused = true;
     
-    if (typeof audioMixer !== 'undefined') {
-        audioMixer.pause();
-    }
-    
     document.body.classList.remove("timer-active");
     stopTimerBreathing();
   }
@@ -71,47 +63,22 @@ function stopStopwatch() {
   isPaused = false;
 
   if (timerValue <= 0) {
-    // Timer completed
-    playAudio();
     showCompletionMessage();
-    // Log full duration
     logSession(initialTimerValue / 60);
   } else {
-    // Log partial duration (if user stops early)
     const elapsedSeconds = initialTimerValue - timerValue;
-    if (elapsedSeconds > 0) {
-        logSession(elapsedSeconds / 60);
-    }
+    if (elapsedSeconds > 0) logSession(elapsedSeconds / 60);
   }
 
-  // Reset timer
   timerValue = initialTimerValue;
   updateTimerDisplay();
   updateProgressRing();
-  
-  if (typeof audioMixer !== 'undefined') {
-      audioMixer.pause();
-  }
 
   document.body.classList.remove("timer-active");
   stopTimerBreathing();
 }
 
-function playAudio() {
-  audio = document.getElementById("timerAudio2");
-  audio.play();
 
-  // Add click event listener to stop audio on click anywhere on the screen
-  document.body.addEventListener("click", stopAudioOnClick);
-}
-
-function stopAudioOnClick() {
-  if (audio) {
-    audio.pause();
-    audio.currentTime = 0; // Reset audio to the beginning
-    document.body.removeEventListener("click", stopAudioOnClick); // Remove the click event listener
-  }
-}
 
 function updateTimerDisplay() {
   const timerDisplay = document.getElementById("stopwatch");
@@ -170,17 +137,6 @@ function startTimerBreathing() {
   function cycleTimerBreathing() {
     breathingInstruction.textContent = phases[breathingPhase];
     
-    // Voice & Sound Logic
-    const voiceEnabled = document.getElementById('voiceToggle').checked;
-    const soundEnabled = document.getElementById('soundCueToggle').checked;
-
-    if (voiceEnabled) {
-        speakText(phases[breathingPhase]);
-    }
-    if (soundEnabled) {
-        soundCueAudio.currentTime = 0;
-        soundCueAudio.play().catch(() => {});
-    }
     progressRing.className = `progress-ring ${phaseClasses[breathingPhase]}`;
 
     breathingTimer = setTimeout(() => {
